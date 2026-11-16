@@ -2,8 +2,6 @@
   "name": "Concentration",
   "qset": {
     "version": 1,
-    "data": {
-      "items": null
-    }
+    "data": {}
   }
 }

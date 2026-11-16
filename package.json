@@ -8,13 +8,23 @@
     "start": "mwdk-start",
     "build": "mwdk-build-prod",
     "build-dev": "mwdk-build-dev",
+    "typecheck": "tsc --noEmit",
     "test": "echo 'tests have not been implemented'",
     "test-ci": "echo 'tests have not been implemented'"
   },
   "dependencies": {
     "materia-widget-development-kit": "3.0.5",
-    "randomcolor": "^0.5.3",
-    "reset-css": "^4.0.1"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.0",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.22.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.0.0"
   },
   "author": "University of Central Florida, Center for Distributed Learning",
   "description": "Active Voice Verb Concentration provides a set of cards for students to flip to reveal matches of phrases and the active voice verb expansion rule that correlates",

@@ -1,44 +1,38 @@
 const path = require('path')
 const srcPath = path.join(__dirname, 'src') + path.sep
-const outputPath = path.join(__dirname, 'build')
 const widgetWebpack = require('materia-widget-development-kit/webpack-widget')
 
+const rules = widgetWebpack.getDefaultRules()
 const entries = widgetWebpack.getDefaultEntries()
-const copy = widgetWebpack.getDefaultCopyList()
 
 // using default creator
 delete entries['creator']
 
-// remove the above and uncomment this to use a real creator
-// suggestion: use .css instead of .scss unless you really need something from scss
-// entries['creator'] = [
-// 	path.join(__dirname, 'src', 'creator.html'),
-// 	path.join(__dirname, 'src', 'creator.js'),
-// 	path.join(__dirname, 'src', 'creator.scss'),
-// ]
+// The MWDK's React rule handles JS/JSX by default. Extend it to transpile
+// TypeScript/TSX too; `yarn typecheck` runs TypeScript's separate type checker.
+rules.reactLoader.test = /\.(js|jsx|ts|tsx)$/i
+rules.reactLoader.resolve.extensions = ['.tsx', '.ts', '.jsx', '.js']
+rules.reactLoader.use[0].options.presets.push('@babel/preset-typescript')
 
 entries['player'] = [
 	path.join(__dirname, 'src', 'player.html'),
-	path.join(__dirname, 'src', 'player.js'),
-	path.join(__dirname, 'src', 'player.scss'),
+	path.join(__dirname, 'src', 'player', 'index.tsx'),
+	path.join(__dirname, 'src', 'player', 'styles', 'player.scss'),
 ]
 
-// copy libs from node_modules to vendor dir
-// confirm if these are necessary, remove if they are not
-const customCopy = copy.concat([
-	{
-		from: path.join(__dirname, 'node_modules', 'reset-css', 'reset.css'),
-		to: path.join(__dirname, 'build', 'vendor')
-	},
-	{
-		from: path.join(__dirname, 'node_modules', 'randomcolor', 'randomColor.js'),
-		to: path.join(__dirname, 'build', 'vendor')
-	}
-])
+const moduleRules = [
+	rules.loaderDoNothingToJs,
+	rules.loaderCompileCoffee,
+	rules.copyImages,
+	rules.loadHTMLAndReplaceMateriaScripts,
+	rules.loadAndPrefixSASS,
+	rules.reactLoader,
+]
 
-let options = {
+const options = {
 	entries: entries,
-	copyList: customCopy
+	copyList: widgetWebpack.getDefaultCopyList(),
+	moduleRules,
 }
 
 module.exports = widgetWebpack.getLegacyWidgetBuildConfig(options)
