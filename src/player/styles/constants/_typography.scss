@@ -1,0 +1,13 @@
+// Shared type scale
+$screen-title: clamp(1.75rem, 5vw, 4.5rem);
+$screen-title-compact: clamp(1.5rem, 8vw, 2rem);
+$subtitle: clamp(0.875rem, 2vw, 1.125rem);
+$body: 1rem;
+$secondary: 0.875rem;
+$caption: 0.75rem;
+$card: clamp(0.85rem, 1vw, 1.5rem);
+
+// Shared line-height scale
+$tight-line-height: 1;
+$compact-line-height: 1.2;
+$body-line-height: 1.4;

@@ -1,4 +1,4 @@
-import React, { StrictMode } from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
 import './styles/player.scss'
@@ -18,5 +18,13 @@ Materia.Engine.start({
 				<App />
 			</StrictMode>,
 		)
+
+		// Report the real content height, rounded up to avoid a 1px iframe scrollbar.
+		const observer = new ResizeObserver(() => {
+			const height = Math.ceil(rootElement.getBoundingClientRect().height)
+			if (height > 0) Materia.Engine.setHeight(height)
+		})
+		observer.observe(rootElement)
+		window.addEventListener('unload', () => observer.disconnect(), { once: true })
 	},
 })

@@ -12,7 +12,11 @@ delete entries['creator']
 // TypeScript/TSX too; `yarn typecheck` runs TypeScript's separate type checker.
 rules.reactLoader.test = /\.(js|jsx|ts|tsx)$/i
 rules.reactLoader.resolve.extensions = ['.tsx', '.ts', '.jsx', '.js']
-rules.reactLoader.use[0].options.presets.push('@babel/preset-typescript')
+rules.reactLoader.use[0].options.presets = [
+	['@babel/preset-react', { runtime: 'automatic' }],
+	'@babel/preset-env',
+	'@babel/preset-typescript',
+]
 
 entries['player'] = [
 	path.join(__dirname, 'src', 'player.html'),

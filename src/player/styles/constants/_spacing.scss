@@ -1,0 +1,12 @@
+// Shared spacing scale
+$none: 0;
+$xs: 0.25rem;
+$sm: 0.5rem;
+$md: 0.75rem;
+$base: 1rem;
+$lg: 1.5rem;
+$xl: 2rem;
+$xxl: 3rem;
+
+// Fluid layout spacing based on the shared scale
+$layout-padding: clamp($base, 4vw, $xxl);

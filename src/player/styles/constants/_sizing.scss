@@ -1,0 +1,23 @@
+// Viewport and content bounds
+$viewport-height: 100vh;
+$dynamic-viewport-height: 100dvh;
+$layout-width: min(86vw, 78rem);
+$layout-width-compact: 100%;
+$content-max-width: 50rem;
+$mobile-breakpoint: 600px;
+$card-aspect-ratio: 1.7;
+
+// Reusable control, touch, icon, border, and corner sizes
+$control-height: 2rem;
+$control-height-compact: 1.75rem;
+$touch-target-min: 2.75rem;
+$icon-small: 1rem;
+$icon-medium: 1.25rem;
+$icon-large: 1.5rem;
+$radius-small: 0.25rem;
+$radius-medium: 0.5rem;
+$radius-large: 0.75rem;
+$border-thin: 1px;
+$border-medium: 2px;
+$border-thick: 3px;
+$border-extra-thick: 5px;

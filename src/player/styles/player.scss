@@ -1,9 +1,291 @@
-html,
-body,
-#root {
-	min-height: 100%;
+@use './constants/colors' as colors;
+@use './constants/fonts' as fonts;
+@use './constants/sizing' as sizing;
+@use './constants/spacing' as spacing;
+@use './constants/typography' as type;
+
+* {
+	box-sizing: border-box;
 }
 
 body {
-	margin: 0;
+	margin: spacing.$none;
+	font-family: fonts.$ui;
+	color: colors.$text;
+}
+
+
+// the whole app container
+.app {
+	display: grid;
+	grid-template-rows: auto auto auto;
+	justify-items: center;
+	align-items: stretch;
+	gap: spacing.$sm;
+	padding: spacing.$base;
+	background-color: colors.$app-background;
+}
+
+
+// titles above the board
+.title-container {
+	width: sizing.$layout-width;
+	display: grid;
+	place-items: start;
+	gap: spacing.$xs;
+	margin-bottom: spacing.$none;
+}
+
+.title {
+	margin: spacing.$none;
+	font-family: fonts.$display;
+	font-size: type.$screen-title;
+	font-weight: 900;
+	line-height: type.$tight-line-height;
+	text-transform: uppercase;
+}
+
+@supports (-webkit-text-stroke: 1px) {
+	.title {
+		color: colors.$surface;
+		-webkit-text-stroke: sizing.$border-extra-thick colors.$primary;
+		paint-order: stroke fill;
+	}
+}
+
+.subtitle {
+	margin: spacing.$none;
+	font-size: type.$subtitle;
+}
+
+
+// the bar below the title + above the board (aka just the timer and round info)
+.game-toolbar {
+	width: sizing.$layout-width;
+	min-width: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: spacing.$sm;
+}
+
+.timer {
+	display: flex;
+	align-items: center;
+	gap: spacing.$sm;
+	height: sizing.$control-height;
+	padding: spacing.$none spacing.$md;
+	border-radius: sizing.$radius-small;
+	background-color: colors.$primary;
+	color: colors.$text-on-primary;
+	font-size: type.$body;
+	white-space: nowrap;
+}
+
+.timer p {
+	margin: spacing.$none;
+	line-height: type.$tight-line-height;
+}
+
+.timer-icon {
+	font-size: sizing.$icon-medium;
+	font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+	line-height: type.$tight-line-height;
+}
+
+.round-bar {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	flex-wrap: wrap;
+	gap: spacing.$sm;
+}
+
+
+// the board holding the cards
+.board {
+	display: grid;
+	place-items: center;
+	width: sizing.$layout-width;
+	min-width: 0;
+	padding: spacing.$layout-padding;
+	border: sizing.$border-medium solid colors.$border;
+	background-color: colors.$surface;
+}
+
+
+// the cards
+.card-container {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: spacing.$sm;
+	width: min(100%, sizing.$content-max-width);
+}
+
+.card-hidden {
+	width: 100%;
+	height: auto;
+	aspect-ratio: sizing.$card-aspect-ratio;
+	min-height: sizing.$touch-target-min;
+	min-width: 0;
+	border: spacing.$none;
+	border-radius: sizing.$radius-small;
+	background-color: colors.$card-back;
+}
+
+.card-revealed {
+	display: grid;
+	place-items: center;
+	width: 100%;
+	height: auto;
+	aspect-ratio: sizing.$card-aspect-ratio;
+	min-height: sizing.$touch-target-min;
+	min-width: 0;
+	border: sizing.$border-thick solid colors.$card-back;
+	border-radius: sizing.$radius-small;
+	background-color: colors.$surface-raised;
+}
+
+.card-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	margin: spacing.$none;
+	padding: spacing.$sm;
+	text-align: center;
+	font-family: fonts.$ui;
+	font-size: type.$card;
+	line-height: type.$body-line-height;
+	overflow-wrap: anywhere;
+}
+
+
+// the round boxes
+.round {
+	width: sizing.$control-height;
+	height: sizing.$control-height;
+	display: grid;
+	place-items: center;
+	flex: 0 0 auto;
+	border: sizing.$border-thin solid colors.$border;
+	border-radius: 0;
+	color: colors.$text;
+	font-size: type.$body;
+}
+
+.round span {
+	line-height: type.$tight-line-height;
+}
+
+.round.active {
+	background-color: colors.$primary;
+	border-color: colors.$primary;
+	color: colors.$text-on-primary;
+}
+
+.round.complete {
+	background-color: colors.$border;
+	border-color: colors.$border;
+	color: colors.$text-on-primary;
+}
+
+.round.inactive {
+	background-color: transparent;
+}
+
+
+// responsive styles for smaller screens
+@media (max-width: sizing.$mobile-breakpoint) {
+	.app {
+		height: sizing.$viewport-height;
+		height: sizing.$dynamic-viewport-height;
+		min-height: 0;
+		padding: spacing.$base 0;
+	}
+
+	.title-container,
+	.game-toolbar {
+		width: sizing.$layout-width-compact;
+	}
+
+	.app {
+		grid-template-rows: auto auto minmax(0, 1fr) auto;
+		grid-template-areas:
+			'title'
+			'timer'
+			'board'
+			'rounds';
+	}
+
+	.title-container {
+		grid-area: title;
+		justify-items: center;
+		padding-inline: spacing.$sm;
+		text-align: center;
+	}
+
+	.title {
+		font-size: type.$screen-title-compact;
+		overflow-wrap: anywhere;
+	}
+
+	.subtitle {
+		display: none;
+	}
+
+	.game-toolbar {
+		display: contents;
+	}
+
+	.timer {
+		grid-area: timer;
+		justify-self: start;
+		margin-left: spacing.$sm;
+	}
+
+	.round-bar {
+		grid-area: rounds;
+		justify-content: center;
+		flex-wrap: wrap;
+		padding: spacing.$sm;
+	}
+
+	.board {
+		grid-area: board;
+		display: block;
+		width: sizing.$layout-width-compact;
+		min-height: 0;
+		padding: spacing.$sm;
+		// Equal clear strips for swiping without starting on a card.
+		padding-inline: sizing.$touch-target-min;
+		overflow-y: auto;
+	}
+
+	.card-container {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: spacing.$sm;
+	}
+
+	.card-content {
+		padding: spacing.$xs;
+		font-size: type.$secondary;
+		line-height: type.$compact-line-height;
+		overflow-wrap: anywhere;
+	}
+
+	.round-bar {
+		gap: spacing.$xs;
+	}
+
+	.timer {
+		height: sizing.$control-height-compact;
+		gap: spacing.$xs;
+		padding-inline: spacing.$sm;
+	}
+
+	.round {
+		width: sizing.$control-height-compact;
+		height: sizing.$control-height-compact;
+	}
 }
