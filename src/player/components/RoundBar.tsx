@@ -1,15 +1,27 @@
-export default function RoundBar({ rounds, currentRound }: { rounds: number, currentRound: number }) {
+interface RoundBarProps {
+	rounds: number
+	currentRound: number
+	roundComplete?: boolean
+}
+
+export default function RoundBar({ rounds, currentRound, roundComplete = false }: RoundBarProps) {
 	return (
 		<nav className="round-bar" aria-label="Round progress">
-			{Array.from({ length: rounds }, (_, i) => (
-				<div
-					className={`round ${i + 1 === currentRound ? 'active' : i + 1 < currentRound ? 'complete' : 'inactive'}`}
-					aria-current={i + 1 === currentRound ? 'step' : undefined}
-					key={i}
-				>
-					<span>{i + 1}</span>
-				</div>
-			))}
+			{Array.from({ length: rounds }, (_, i) => {
+				const round = i + 1
+				const isActive = round === currentRound && !roundComplete
+				const isComplete = round < currentRound || (round === currentRound && roundComplete)
+
+				return (
+					<div
+						className={`round ${isActive ? 'active' : isComplete ? 'complete' : 'inactive'}`}
+						aria-current={isActive ? 'step' : undefined}
+						key={round}
+					>
+						<span>{round}</span>
+					</div>
+				)
+			})}
 		</nav>
 	)
 }

@@ -107,17 +107,144 @@ body {
 	display: grid;
 	place-items: center;
 	width: sizing.$layout-width;
+	height: sizing.$board-height;
 	min-width: 0;
+	min-height: sizing.$board-height;
 	padding: spacing.$layout-padding;
 	border: sizing.$border-medium solid colors.$border;
 	background-color: colors.$surface;
+	overflow-y: auto;
+}
+
+.board-content {
+	width: 100%;
+	height: 100%;
+	min-width: 0;
+	min-height: 0;
+	display: grid;
+	grid-template-rows: minmax(0, 1fr);
+}
+
+.board--content {
+	place-items: stretch;
+	grid-template-columns: minmax(0, 1fr);
+	grid-template-rows: minmax(0, 1fr);
+	padding: spacing.$none;
+	overflow: hidden;
+}
+
+.round-review-layout {
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+	display: grid;
+	grid-template-columns: minmax(0, 3fr) minmax(14rem, 1fr);
+	grid-template-rows: minmax(0, 1fr);
+	align-items: stretch;
+}
+
+.round-review-cards {
+	min-width: 0;
+	min-height: 0;
+	height: 100%;
+	display: flex;
+	padding: spacing.$md;
+	overflow-y: auto;
+}
+
+.round-review-grid {
+	width: min(100%, sizing.$content-max-width);
+	margin: auto;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, sizing.$grid-item-min-width), 1fr));
+	gap: spacing.$sm;
+}
+
+// Let revealed answers grow when their text needs more than the preferred ratio.
+.round-review-grid .card-revealed {
+	min-height: auto;
+}
+
+.round-summary {
+	min-width: 0;
+	min-height: 0;
+	align-self: stretch;
+	display: flex;
+	padding: spacing.$md;
+	border-left: sizing.$border-medium solid colors.$border;
+	background-color: colors.$surface-raised;
+	overflow-y: auto;
+	text-align: center;
+}
+
+.round-summary-content {
+	width: 100%;
+	margin: auto 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: spacing.$lg;
+}
+
+.round-complete-message {
+	width: min(100%, 28rem);
+}
+
+.round-complete-message h2 {
+	margin: spacing.$none;
+	font-size: type.$section-title;
+}
+
+.round-complete-message p {
+	margin: spacing.$sm spacing.$none spacing.$none;
+	font-size: type.$body;
+	line-height: type.$body-line-height;
+}
+
+.round-complete-actions {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: spacing.$sm;
+}
+
+.button {
+	min-height: sizing.$button-height;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: spacing.$xs;
+	padding: spacing.$sm spacing.$lg;
+	border: sizing.$border-thin solid transparent;
+	border-radius: sizing.$radius-small;
+	font: inherit;
+	font-weight: 700;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.button:focus-visible {
+	outline: sizing.$border-medium solid colors.$primary;
+	outline-offset: spacing.$xs;
+}
+
+.button-primary {
+	border-color: colors.$primary;
+	background-color: colors.$primary;
+	color: colors.$text-on-primary;
+}
+
+.button-secondary {
+	border-color: colors.$border;
+	background-color: colors.$surface-raised;
+	color: colors.$text;
 }
 
 
 // the cards
 .card-container {
 	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, sizing.$grid-item-min-width), 1fr));
 	gap: spacing.$sm;
 	width: min(100%, sizing.$content-max-width);
 }
@@ -152,7 +279,7 @@ body {
 	align-items: center;
 	width: 100%;
 	margin: spacing.$none;
-	padding: spacing.$sm;
+	padding: spacing.$lg;
 	text-align: center;
 	font-family: fonts.$ui;
 	font-size: type.$card;
@@ -251,15 +378,63 @@ body {
 		padding: spacing.$sm;
 	}
 
+	.button {
+		padding-inline: spacing.$sm;
+	}
+
 	.board {
 		grid-area: board;
 		display: block;
 		width: sizing.$layout-width-compact;
 		min-height: 0;
+		height: 100%;
 		padding: spacing.$sm;
 		// Equal clear strips for swiping without starting on a card.
 		padding-inline: sizing.$touch-target-min;
 		overflow-y: auto;
+	}
+
+	.board--content {
+		display: grid;
+		padding: spacing.$none;
+		overflow: hidden;
+	}
+
+	.board-content {
+		height: 100%;
+		min-height: 0;
+	}
+
+	.round-review-layout {
+		height: 100%;
+		min-height: 0;
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-rows: auto minmax(0, 1fr);
+	}
+
+	.round-summary {
+		grid-row: 1;
+		padding: spacing.$md;
+		border-top: 0;
+		border-right: 0;
+		border-bottom: sizing.$border-medium solid colors.$border;
+		border-left: 0;
+	}
+
+	.round-summary-content {
+		gap: spacing.$md;
+	}
+
+	.round-review-cards {
+		grid-row: 2;
+		height: 100%;
+		min-height: 0;
+		padding: spacing.$sm sizing.$touch-target-min;
+		overflow-y: auto;
+	}
+
+	.round-review-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
 	.card-container {

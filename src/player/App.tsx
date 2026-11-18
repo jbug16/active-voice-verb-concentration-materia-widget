@@ -9,15 +9,35 @@ import GameComplete from './screens/GameComplete';
 
 type Screen = 'instructions' | 'playing' | 'round-complete' | 'game-complete';
 
+const ROUND_COUNT = 6
+const roundAnswerPreview = Array.from({ length: 16 }, (_, index) =>
+	index % 2 === 0 ? 'Match one' : '87394284',
+)
+
 export default function App() {
-	const [screen, setScreen] = useState<Screen>('playing');
+	const [screen, setScreen] = useState<Screen>('round-complete');
+	const [currentRound, setCurrentRound] = useState(3)
+
+	function handleNextLevel() {
+		if (currentRound >= ROUND_COUNT) {
+			setScreen('game-complete')
+			return
+		}
+
+		setCurrentRound((round) => round + 1)
+		setScreen('playing')
+	}
 	
 	return (
 		<main className="app">
 			<Title title="My concentration game" />
 			<div className="game-toolbar">
 				<Timer time={243} />
-				<RoundBar rounds={6} currentRound={3} />
+				<RoundBar
+					rounds={ROUND_COUNT}
+					currentRound={currentRound}
+					roundComplete={screen === 'round-complete'}
+				/>
 			</div>
 			{(() => {
 				switch (screen) {
@@ -26,7 +46,15 @@ export default function App() {
 					case 'playing':
 						return <GameScreen />;
 					case 'round-complete':
-						return <RoundComplete />;
+						return (
+							<RoundComplete
+								level={currentRound}
+								minutes={4}
+								seconds={3}
+								answers={roundAnswerPreview}
+								onNextLevel={handleNextLevel}
+							/>
+						);
 					case 'game-complete':
 						return <GameComplete />;
 					default:
