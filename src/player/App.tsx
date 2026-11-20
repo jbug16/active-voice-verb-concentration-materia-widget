@@ -6,13 +6,12 @@ import GameScreen from './screens/GameScreen';
 import RoundComplete from './screens/RoundComplete';
 import Instructions from './screens/Instructions';
 import GameComplete from './screens/GameComplete';
+import { exampleCards } from '../game/examplePairs'
 
 type Screen = 'instructions' | 'playing' | 'round-complete' | 'game-complete';
 
 const ROUND_COUNT = 6
-const roundAnswerPreview = Array.from({ length: 16 }, (_, index) =>
-	index % 2 === 0 ? 'Match one' : '87394284',
-)
+const roundAnswerPreview = exampleCards.map((card) => card.content)
 // Placeholder times in seconds until real round timing is implemented.
 const levelTimePreview = [150, 105, 221, 248, 239, 120]
 

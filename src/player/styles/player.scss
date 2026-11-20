@@ -221,11 +221,6 @@ body {
 	gap: spacing.$sm;
 }
 
-// Let revealed answers grow when their text needs more than the preferred ratio.
-.round-review-grid .card-revealed {
-	min-height: auto;
-}
-
 .round-summary {
 	min-width: 0;
 	min-height: 0;
@@ -311,19 +306,33 @@ body {
 }
 
 .card-hidden {
+	appearance: none;
+	-webkit-appearance: none;
 	width: 100%;
 	height: auto;
 	aspect-ratio: sizing.$card-aspect-ratio;
 	min-height: sizing.$touch-target-min;
 	min-width: 0;
+	padding: spacing.$none;
 	border: spacing.$none;
 	border-radius: sizing.$radius-small;
 	background-color: colors.$card-back;
+	cursor: pointer;
+}
+
+.card-hidden:focus-visible {
+	outline: sizing.$border-medium solid colors.$primary;
+	outline-offset: spacing.$xs;
+}
+
+.card-hidden:disabled {
+	cursor: default;
 }
 
 .card-revealed {
+	position: relative;
 	display: grid;
-	place-items: center;
+	grid-template-rows: minmax(0, 1fr);
 	width: 100%;
 	height: auto;
 	aspect-ratio: sizing.$card-aspect-ratio;
@@ -334,18 +343,131 @@ body {
 	background-color: colors.$surface-raised;
 }
 
-.card-content {
+.card-preview {
+	min-width: 0;
+	min-height: 0;
 	display: flex;
-	justify-content: center;
 	align-items: center;
+	padding: spacing.$sm;
+	overflow: hidden;
+}
+
+.card-preview-clip {
+	width: 100%;
+	padding-inline: 0.5em;
+	overflow: hidden;
+}
+
+.card-revealed--long .card-content {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: var(--card-preview-lines, 1);
+	// The wrapper clips extra lines while leaving space for the full ellipsis.
+	overflow: visible;
+}
+
+.card-content {
 	width: 100%;
 	margin: spacing.$none;
-	padding: spacing.$lg;
+	padding: 0;
 	text-align: center;
 	font-family: fonts.$ui;
 	font-size: type.$card;
 	line-height: type.$body-line-height;
 	overflow-wrap: anywhere;
+}
+
+.card-detail-close {
+	min-height: sizing.$touch-target-min;
+	padding: spacing.$xs spacing.$sm;
+	border: 0;
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.card-detail-trigger {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	cursor: pointer;
+}
+
+.card-detail-trigger:focus-visible,
+.card-detail-close:focus-visible,
+.card-detail-content:focus-visible {
+	outline: sizing.$border-medium solid colors.$primary;
+	outline-offset: -3px;
+}
+
+.card-detail {
+	width: min(90%, 32rem);
+	max-width: calc(100% - 2rem);
+	max-height: min(80vh, 36rem);
+	max-height: min(80dvh, 36rem);
+	margin: auto;
+	padding: 0;
+	border: sizing.$border-thick solid colors.$card-back;
+	border-radius: sizing.$radius-medium;
+	background: colors.$surface-raised;
+	color: colors.$text;
+}
+
+.card-detail[open] {
+	display: flex;
+	flex-direction: column;
+}
+
+.card-detail::backdrop {
+	background-color: rgb(0 0 0 / 55%);
+}
+
+.card-detail-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: spacing.$sm;
+	padding: spacing.$sm spacing.$base;
+	border-bottom: sizing.$border-thin solid colors.$border;
+}
+
+.card-detail-header h2 {
+	margin: 0;
+	font-size: type.$section-title;
+}
+
+.card-detail-close {
+	background: transparent;
+	color: colors.$text;
+}
+
+.card-detail-content {
+	min-height: 0;
+	padding: spacing.$base;
+	overflow-y: auto;
+	line-height: type.$body-line-height;
+	overflow-wrap: anywhere;
+}
+
+.card-detail-content p {
+	margin: 0;
+	white-space: pre-wrap;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
 }
 
 
@@ -518,11 +640,20 @@ body {
 		gap: spacing.$sm;
 	}
 
-	.card-content {
+	.card-preview {
 		padding: spacing.$xs;
+	}
+
+	.card-content {
 		font-size: type.$secondary;
 		line-height: type.$compact-line-height;
 		overflow-wrap: anywhere;
+	}
+
+	.card-detail {
+		width: calc(100% - 2rem);
+		max-width: none;
+		margin: auto auto max(1rem, env(safe-area-inset-bottom));
 	}
 
 	.round-bar {
