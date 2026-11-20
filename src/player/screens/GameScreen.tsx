@@ -5,7 +5,7 @@ export default function GameScreen() {
     return (
         <Board children={
             <>
-                <Card revealed={true} content="A" />
+                <Card revealed={true} content="This is a test card. I want to see how the text looks when it is long enough to wrap onto multiple lines." />
                 <Card revealed={false} content="B" />
                 <Card revealed={false} content="C" />
                 <Card revealed={false} content="D" />

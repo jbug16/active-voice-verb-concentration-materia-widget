@@ -3,14 +3,15 @@ import React from 'react'
 interface BoardProps {
     children: React.ReactNode;
     variant?: 'cards' | 'content';
+    label?: string;
 }
 
-export default function Board({ children, variant = 'cards' }: BoardProps) {
+export default function Board({ children, variant = 'cards', label }: BoardProps) {
 	return (
 		<div
 			className={`board ${variant === 'content' ? 'board--content' : ''}`}
 			role="region"
-			aria-label={variant === 'content' ? 'Round results and answers' : 'Game board'}
+			aria-label={label ?? (variant === 'content' ? 'Round results and answers' : 'Game board')}
 			tabIndex={variant === 'cards' ? 0 : undefined}
 		>
 			{variant === 'content' ? (

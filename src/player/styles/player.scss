@@ -99,6 +99,7 @@ body {
 	justify-content: flex-end;
 	flex-wrap: wrap;
 	gap: spacing.$sm;
+	margin-left: auto;
 }
 
 
@@ -131,6 +132,66 @@ body {
 	grid-template-rows: minmax(0, 1fr);
 	padding: spacing.$none;
 	overflow: hidden;
+}
+
+.game-complete-layout {
+	min-width: 0;
+	min-height: 0;
+	display: flex;
+	padding: spacing.$lg;
+	overflow-y: auto;
+}
+
+.game-complete-content {
+	width: min(100%, 40rem);
+	margin: auto;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	align-items: center;
+	gap: spacing.$xl;
+}
+
+.level-times {
+	width: 100%;
+	border: sizing.$border-medium solid colors.$border;
+	border-collapse: collapse;
+	background-color: colors.$surface-raised;
+	text-align: center;
+}
+
+.level-times th,
+.level-times td {
+	width: 50%;
+	padding: spacing.$sm;
+}
+
+.level-times thead {
+	border-bottom: sizing.$border-thin solid colors.$border;
+}
+
+.level-times tbody th {
+	border-right: sizing.$border-thin solid colors.$border;
+}
+
+.game-complete-message {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: spacing.$base;
+	text-align: center;
+}
+
+.game-complete-message h2,
+.game-complete-message p {
+	margin: spacing.$none;
+}
+
+.game-complete-message h2 {
+	font-size: type.$section-title;
+}
+
+.game-complete-message p {
+	line-height: type.$body-line-height;
 }
 
 .round-review-layout {
@@ -376,6 +437,7 @@ body {
 		justify-content: center;
 		flex-wrap: wrap;
 		padding: spacing.$sm;
+		margin-left: 0;
 	}
 
 	.button {
@@ -403,6 +465,20 @@ body {
 	.board-content {
 		height: 100%;
 		min-height: 0;
+	}
+
+	.game-complete-layout {
+		padding: spacing.$base;
+	}
+
+	.game-complete-content {
+		max-width: 20rem;
+		grid-template-columns: minmax(0, 1fr);
+		gap: spacing.$base;
+	}
+
+	.game-complete-message {
+		grid-row: 1;
 	}
 
 	.round-review-layout {

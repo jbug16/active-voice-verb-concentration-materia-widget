@@ -13,9 +13,11 @@ const ROUND_COUNT = 6
 const roundAnswerPreview = Array.from({ length: 16 }, (_, index) =>
 	index % 2 === 0 ? 'Match one' : '87394284',
 )
+// Placeholder times in seconds until real round timing is implemented.
+const levelTimePreview = [150, 105, 221, 248, 239, 120]
 
 export default function App() {
-	const [screen, setScreen] = useState<Screen>('round-complete');
+	const [screen, setScreen] = useState<Screen>('game-complete');
 	const [currentRound, setCurrentRound] = useState(3)
 
 	function handleNextLevel() {
@@ -27,16 +29,21 @@ export default function App() {
 		setCurrentRound((round) => round + 1)
 		setScreen('playing')
 	}
+
+	function handlePlayAgain() {
+		setCurrentRound(1)
+		setScreen('playing')
+	}
 	
 	return (
 		<main className="app">
 			<Title title="My concentration game" />
 			<div className="game-toolbar">
-				<Timer time={243} />
+				{screen !== 'game-complete' && <Timer time={243} />}
 				<RoundBar
 					rounds={ROUND_COUNT}
-					currentRound={currentRound}
-					roundComplete={screen === 'round-complete'}
+					currentRound={screen === 'game-complete' ? ROUND_COUNT : currentRound}
+					roundComplete={screen === 'round-complete' || screen === 'game-complete'}
 				/>
 			</div>
 			{(() => {
@@ -56,7 +63,12 @@ export default function App() {
 							/>
 						);
 					case 'game-complete':
-						return <GameComplete />;
+						return (
+							<GameComplete
+								levelTimes={levelTimePreview}
+								onPlayAgain={handlePlayAgain}
+							/>
+						);
 					default:
 						return null;
 				}
