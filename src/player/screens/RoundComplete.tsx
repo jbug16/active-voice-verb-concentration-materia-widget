@@ -1,12 +1,11 @@
-import Board from '../components/Board'
-import Card from '../components/Card'
+import { useEffect, useRef } from 'react'
 
 interface RoundCompleteProps {
 	level: number
 	minutes: number
 	seconds: number
-	answers: string[]
-	isFinalRound?: boolean
+	isFinalRound: boolean
+	onViewAnswers: () => void
 	onNextLevel: () => void
 }
 
@@ -14,38 +13,53 @@ export default function RoundComplete({
 	level,
 	minutes,
 	seconds,
-	answers,
-	isFinalRound = false,
+	isFinalRound,
+	onViewAnswers,
 	onNextLevel,
 }: RoundCompleteProps) {
+	const dialogRef = useRef<HTMLDialogElement>(null)
+
+	useEffect(() => {
+		const dialog = dialogRef.current
+		if (dialog && !dialog.open) dialog.showModal()
+		return () => {
+			if (dialog?.open) dialog.close()
+		}
+	}, [])
+
 	return (
-		<Board variant="content">
-			<section className="round-review-layout" aria-label="Round results and revealed answers">
-				<div className="round-review-cards" role="region" aria-label="Revealed cards" tabIndex={0}>
-					<div className="round-review-grid">
-						{answers.map((answer, index) => (
-							<Card key={`answer-${index}`} revealed content={answer} />
-						))}
-					</div>
+		<dialog
+			className="round-complete-dialog"
+			aria-labelledby="round-complete-title"
+			onCancel={(event) => {
+				event.preventDefault()
+				onViewAnswers()
+			}}
+			ref={dialogRef}
+		>
+			<div className="round-complete-dialog-content">
+				<div>
+					<h2 id="round-complete-title">Nice!</h2>
+					<p>
+						You finished level {level} in <strong>{minutes} minutes</strong> and{' '}
+						<strong>{seconds} seconds</strong>
+					</p>
 				</div>
-				<aside className="round-summary" aria-labelledby="round-complete-title">
-					<div className="round-summary-content">
-						<div className="round-complete-message">
-							<h2 id="round-complete-title">Nice!</h2>
-							<p>
-								You finished level {level} in <strong>{minutes} minutes</strong> and{' '}
-								<strong>{seconds} seconds</strong>
-							</p>
-						</div>
-						<button className="button button-primary" onClick={onNextLevel} type="button">
-							{isFinalRound ? 'See Results' : 'Next Level'}
-							<span className="material-symbols-outlined button-icon" aria-hidden="true">
-								arrow_forward
-							</span>
-						</button>
-					</div>
-				</aside>
-			</section>
-		</Board>
+				<div className="round-complete-dialog-actions">
+					<button className="button button-secondary" onClick={onViewAnswers} type="button">
+						View Answers
+						<span className="material-symbols-outlined button-icon" aria-hidden="true">
+							check
+						</span>
+					</button>
+					<button className="button button-primary" onClick={onNextLevel} type="button">
+						{isFinalRound ? 'See Results' : 'Next Level'}
+						<span className="material-symbols-outlined button-icon" aria-hidden="true">
+							arrow_forward
+						</span>
+					</button>
+				</div>
+			</div>
+		</dialog>
 	)
 }

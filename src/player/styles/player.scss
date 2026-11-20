@@ -134,6 +134,54 @@ body {
 	overflow: hidden;
 }
 
+.round-complete-dialog {
+	width: min(90%, 32rem);
+	max-width: calc(100% - 2rem);
+	max-height: min(80vh, 36rem);
+	max-height: min(80dvh, 36rem);
+	margin: auto;
+	padding: spacing.$lg;
+	border: sizing.$border-thick solid colors.$card-back;
+	border-radius: sizing.$radius-medium;
+	background-color: colors.$surface-raised;
+	color: colors.$text;
+}
+
+.round-complete-dialog[open] {
+	display: block;
+}
+
+.round-complete-dialog::backdrop {
+	background-color: rgb(0 0 0 / 55%);
+}
+
+.round-complete-dialog-content {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: spacing.$lg;
+}
+
+.round-complete-dialog-content h2,
+.round-complete-dialog-content p {
+	margin: spacing.$none;
+}
+
+.round-complete-dialog-content h2 {
+	font-size: type.$section-title;
+}
+
+.round-complete-dialog-content p {
+	margin-top: spacing.$sm;
+	line-height: type.$body-line-height;
+}
+
+.round-complete-dialog-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: spacing.$sm;
+}
+
 .instructions-screen {
 	min-width: 0;
 	min-height: 0;
@@ -221,78 +269,6 @@ body {
 	line-height: type.$body-line-height;
 }
 
-.round-review-layout {
-	width: 100%;
-	height: 100%;
-	min-height: 0;
-	display: grid;
-	grid-template-columns: minmax(0, 3fr) minmax(14rem, 1fr);
-	grid-template-rows: minmax(0, 1fr);
-	align-items: stretch;
-}
-
-.round-review-cards {
-	min-width: 0;
-	min-height: 0;
-	height: 100%;
-	display: flex;
-	padding: spacing.$md;
-	overflow-y: auto;
-}
-
-.round-review-grid {
-	width: min(100%, sizing.$content-max-width);
-	margin: auto;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-content: center;
-	gap: spacing.$sm;
-}
-
-.round-summary {
-	min-width: 0;
-	min-height: 0;
-	align-self: stretch;
-	display: flex;
-	padding: spacing.$md;
-	border-left: sizing.$border-medium solid colors.$border;
-	background-color: colors.$surface-raised;
-	overflow-y: auto;
-	text-align: center;
-}
-
-.round-summary-content {
-	width: 100%;
-	margin: auto 0;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: spacing.$lg;
-}
-
-.round-complete-message {
-	width: min(100%, 28rem);
-}
-
-.round-complete-message h2 {
-	margin: spacing.$none;
-	font-size: type.$section-title;
-}
-
-.round-complete-message p {
-	margin: spacing.$sm spacing.$none spacing.$none;
-	font-size: type.$body;
-	line-height: type.$body-line-height;
-}
-
-.round-complete-actions {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: spacing.$sm;
-}
-
 .button {
 	min-height: sizing.$button-height;
 	display: inline-flex;
@@ -341,8 +317,7 @@ body {
 	width: min(100%, sizing.$content-max-width);
 }
 
-.card-container > *,
-.round-review-grid > * {
+.card-container > * {
 	flex: 0 1 calc(25% - #{spacing.$sm * 0.75});
 	min-width: sizing.$grid-item-min-width;
 }
@@ -590,7 +565,7 @@ body {
 		display: contents;
 	}
 
-	.timer {
+.timer {
 		grid-area: timer;
 		justify-self: start;
 		margin-left: spacing.$sm;
@@ -650,46 +625,13 @@ body {
 		grid-row: 1;
 	}
 
-	.round-review-layout {
-		height: 100%;
-		min-height: 0;
-		grid-template-columns: minmax(0, 1fr);
-		grid-template-rows: auto minmax(0, 1fr);
-	}
-
-	.round-summary {
-		grid-row: 1;
-		padding: spacing.$md;
-		border-top: 0;
-		border-right: 0;
-		border-bottom: sizing.$border-medium solid colors.$border;
-		border-left: 0;
-	}
-
-	.round-summary-content {
-		gap: spacing.$md;
-	}
-
-	.round-review-cards {
-		grid-row: 2;
-		height: 100%;
-		min-height: 0;
-		padding: spacing.$sm sizing.$touch-target-min;
-		overflow-y: auto;
-	}
-
-	.round-review-grid {
-		align-content: flex-start;
-	}
-
 	.card-container {
 		flex: 0 0 auto;
 		align-self: center;
 		margin-block: auto;
 	}
 
-	.card-container > *,
-	.round-review-grid > * {
+	.card-container > * {
 		flex-basis: calc(50% - #{spacing.$sm * 0.5});
 		min-width: 0;
 	}
@@ -720,8 +662,23 @@ body {
 		padding-inline: spacing.$sm;
 	}
 
+	.toolbar-action {
+		grid-area: timer;
+		justify-self: start;
+		margin-left: spacing.$sm;
+		height: sizing.$control-height-compact;
+		min-height: sizing.$control-height-compact;
+		padding-inline: spacing.$sm;
+	}
+
 	.round {
 		width: sizing.$control-height-compact;
 		height: sizing.$control-height-compact;
 	}
+}
+
+.toolbar-action {
+	height: sizing.$control-height;
+	min-height: sizing.$control-height;
+	padding-inline: spacing.$md;
 }

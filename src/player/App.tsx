@@ -4,10 +4,11 @@ import Timer from './components/Timer'
 import Title from './components/Title'
 import GameScreen from './screens/GameScreen'
 import RoundComplete from './screens/RoundComplete'
+import RoundAnswers from './screens/RoundAnswers'
 import Instructions from './screens/Instructions'
 import GameComplete from './screens/GameComplete'
 
-type Screen = 'instructions' | 'playing' | 'round-complete' | 'game-complete'
+type Screen = 'instructions' | 'playing' | 'round-complete' | 'answers' | 'game-complete'
 
 const ROUND_COUNT = 6
 
@@ -58,6 +59,10 @@ export default function App() {
 		startRound(currentRound + 1)
 	}
 
+	function handleViewAnswers() {
+		setScreen('answers')
+	}
+
 	function handlePlayAgain() {
 		setLevelTimes([])
 		setRoundAnswers([])
@@ -71,40 +76,42 @@ export default function App() {
 				{(screen === 'playing' || screen === 'round-complete') && (
 					<Timer time={elapsedSeconds} />
 				)}
+				{screen === 'answers' && (
+					<button className="button button-primary toolbar-action" onClick={handleNextLevel} type="button">
+						{currentRound >= ROUND_COUNT ? 'See Results' : 'Next Level'}
+						<span className="material-symbols-outlined button-icon" aria-hidden="true">
+							arrow_forward
+						</span>
+					</button>
+				)}
 				<RoundBar
 					rounds={ROUND_COUNT}
 					currentRound={currentRound}
-					roundComplete={screen === 'round-complete' || screen === 'game-complete'}
+					roundComplete={screen === 'round-complete' || screen === 'answers' || screen === 'game-complete'}
 				/>
 			</div>
-			{(() => {
-				switch (screen) {
-					case 'instructions':
-						return <Instructions onStart={() => startRound(1)} />
-					case 'playing':
-						return <GameScreen round={currentRound} onRoundComplete={handleRoundComplete} />
-					case 'round-complete':
-						return (
-							<RoundComplete
-								level={currentRound}
-								minutes={Math.floor(elapsedSeconds / 60)}
-								seconds={elapsedSeconds % 60}
-								answers={roundAnswers}
-								isFinalRound={currentRound === ROUND_COUNT}
-								onNextLevel={handleNextLevel}
-							/>
-						)
-					case 'game-complete':
-						return (
-							<GameComplete
-								levelTimes={levelTimes}
-								onPlayAgain={handlePlayAgain}
-							/>
-						)
-					default:
-						return null
-				}
-			})()}
+			{screen === 'instructions' && <Instructions onStart={() => startRound(1)} />}
+			{(screen === 'playing' || screen === 'round-complete') && (
+				<GameScreen
+					key={currentRound}
+					round={currentRound}
+					onRoundComplete={handleRoundComplete}
+				/>
+			)}
+			{screen === 'round-complete' && (
+				<RoundComplete
+					level={currentRound}
+					minutes={Math.floor(elapsedSeconds / 60)}
+					seconds={elapsedSeconds % 60}
+					isFinalRound={currentRound >= ROUND_COUNT}
+					onViewAnswers={handleViewAnswers}
+					onNextLevel={handleNextLevel}
+				/>
+			)}
+			{screen === 'answers' && <RoundAnswers level={currentRound} answers={roundAnswers} />}
+			{screen === 'game-complete' && (
+				<GameComplete levelTimes={levelTimes} onPlayAgain={handlePlayAgain} />
+			)}
 		</main>
 	)
 }
