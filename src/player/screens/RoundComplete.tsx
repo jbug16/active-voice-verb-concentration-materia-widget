@@ -6,6 +6,7 @@ interface RoundCompleteProps {
 	minutes: number
 	seconds: number
 	answers: string[]
+	isFinalRound?: boolean
 	onNextLevel: () => void
 }
 
@@ -14,6 +15,7 @@ export default function RoundComplete({
 	minutes,
 	seconds,
 	answers,
+	isFinalRound = false,
 	onNextLevel,
 }: RoundCompleteProps) {
 	return (
@@ -36,7 +38,10 @@ export default function RoundComplete({
 							</p>
 						</div>
 						<button className="button button-primary" onClick={onNextLevel} type="button">
-							Next Level <span aria-hidden="true">›</span>
+							{isFinalRound ? 'See Results' : 'Next Level'}
+							<span className="material-symbols-outlined button-icon" aria-hidden="true">
+								arrow_forward
+							</span>
 						</button>
 					</div>
 				</aside>

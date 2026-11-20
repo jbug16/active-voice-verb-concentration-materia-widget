@@ -134,6 +134,33 @@ body {
 	overflow: hidden;
 }
 
+.instructions-screen {
+	min-width: 0;
+	min-height: 0;
+	display: grid;
+	place-items: center;
+	padding: spacing.$lg;
+	overflow-y: auto;
+}
+
+.instructions-content {
+	width: min(100%, 38rem);
+}
+
+.instructions-content h2 {
+	margin-top: 0;
+	font-size: type.$section-title;
+}
+
+.instructions-content li {
+	margin-block: spacing.$sm;
+	line-height: type.$body-line-height;
+}
+
+.instructions-content .button {
+	margin-top: spacing.$sm;
+}
+
 .game-complete-layout {
 	min-width: 0;
 	min-height: 0;
@@ -216,8 +243,10 @@ body {
 .round-review-grid {
 	width: min(100%, sizing.$content-max-width);
 	margin: auto;
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(min(100%, sizing.$grid-item-min-width), 1fr));
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: center;
 	gap: spacing.$sm;
 }
 
@@ -290,6 +319,11 @@ body {
 	color: colors.$text-on-primary;
 }
 
+.button-icon {
+	font-size: sizing.$icon-medium;
+	line-height: type.$tight-line-height;
+}
+
 .button-secondary {
 	border-color: colors.$border;
 	background-color: colors.$surface-raised;
@@ -299,10 +333,18 @@ body {
 
 // the cards
 .card-container {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(min(100%, sizing.$grid-item-min-width), 1fr));
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: center;
 	gap: spacing.$sm;
 	width: min(100%, sizing.$content-max-width);
+}
+
+.card-container > *,
+.round-review-grid > * {
+	flex: 0 1 calc(25% - #{spacing.$sm * 0.75});
+	min-width: sizing.$grid-item-min-width;
 }
 
 .card-hidden {
@@ -568,7 +610,8 @@ body {
 
 	.board {
 		grid-area: board;
-		display: block;
+		display: flex;
+		flex-direction: column;
 		width: sizing.$layout-width-compact;
 		min-height: 0;
 		height: 100%;
@@ -587,6 +630,10 @@ body {
 	.board-content {
 		height: 100%;
 		min-height: 0;
+	}
+
+	.instructions-screen {
+		padding: spacing.$base;
 	}
 
 	.game-complete-layout {
@@ -632,12 +679,19 @@ body {
 	}
 
 	.round-review-grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
+		align-content: flex-start;
 	}
 
 	.card-container {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: spacing.$sm;
+		flex: 0 0 auto;
+		align-self: center;
+		margin-block: auto;
+	}
+
+	.card-container > *,
+	.round-review-grid > * {
+		flex-basis: calc(50% - #{spacing.$sm * 0.5});
+		min-width: 0;
 	}
 
 	.card-preview {

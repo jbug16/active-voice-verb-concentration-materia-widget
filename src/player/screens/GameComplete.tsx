@@ -37,6 +37,9 @@ export default function GameComplete({ levelTimes, onPlayAgain }: GameCompletePr
 						<p>You have finished all the levels.</p>
 						<button className="button button-primary" onClick={onPlayAgain} type="button">
 							Play Again
+							<span className="material-symbols-outlined button-icon" aria-hidden="true">
+								replay
+							</span>
 						</button>
 					</div>
 				</div>

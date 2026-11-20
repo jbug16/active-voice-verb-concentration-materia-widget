@@ -1,54 +1,48 @@
 export interface ExamplePair {
 	id: string
-	structure: string
-	verbPhrase: string
+	left: string
+	right: string
 }
 
-/** Sample active-voice structures and matching verb phrases for the UI scaffold. */
 export const examplePairs: ExamplePair[] = [
 	{
-		id: 'helped',
-		structure: 'past + have + -en + help',
-		verbPhrase: 'had helped',
+		id: 'japan',
+		left: 'Japan',
+		right: 'Tokyo',
 	},
 	{
-		id: 'worked',
-		structure: 'present + have + -en + work',
-		verbPhrase: 'has worked',
+		id: 'france',
+		left: 'France',
+		right: 'Paris',
 	},
 	{
-		id: 'was-working',
-		structure: 'past + be + -ing + work',
-		verbPhrase: 'was working',
+		id: 'canada',
+		left: 'Canada',
+		right: 'Ottawa',
 	},
 	{
-		id: 'will-be-playing',
-		structure: 'present + will + be + -ing + play',
-		verbPhrase: 'will be playing',
+		id: 'brazil',
+		left: 'Brazil',
+		right: 'Brasília',
 	},
 	{
-		id: 'is-having',
-		structure: 'present + be + -ing + have',
-		verbPhrase: 'is having',
+		id: 'egypt',
+		left: 'Egypt',
+		right: 'Cairo',
 	},
 	{
-		id: 'should-have-studied',
-		structure: 'past + shall + have + -en + study',
-		verbPhrase: 'should have studied',
+		id: 'kenya',
+		left: 'Kenya',
+		right: 'Nairobi',
 	},
 	{
-		id: 'found',
-		structure: 'present + have + -en + find',
-		verbPhrase: 'have found',
+		id: 'peru',
+		left: 'Peru',
+		right: 'Lima',
 	},
 	{
-		id: 'lost',
-		structure: 'past + lose',
-		verbPhrase: 'lost',
+		id: 'iceland',
+		left: 'Iceland',
+		right: 'Reykjavík',
 	},
 ]
-
-export const exampleCards = examplePairs.flatMap((pair) => [
-	{ id: `${pair.id}-structure`, pairId: pair.id, content: pair.structure },
-	{ id: `${pair.id}-verb-phrase`, pairId: pair.id, content: pair.verbPhrase },
-])
